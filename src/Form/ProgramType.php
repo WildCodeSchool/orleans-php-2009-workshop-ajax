@@ -19,8 +19,7 @@ class ProgramType extends AbstractType
             ->add('title', TextType::class)
             ->add('summary', TextareaType::class)
             ->add('poster', TextType::class)
-            ->add('category', EntityType::class, [
-                'class' => Category::class,
+            ->add('category', null, [
                 'choice_label' => 'name',
             ])
         ;
