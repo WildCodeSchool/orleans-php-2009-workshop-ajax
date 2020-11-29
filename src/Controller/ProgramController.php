@@ -36,9 +36,9 @@ class ProgramController extends AbstractController
     /**
      * The controller for the program add form
      *
-     * @Route("/add", name="add")
+     * @Route("/new", name="new")
      */
-    public function add(Request $request) : Response
+    public function new(Request $request) : Response
     {
         // Create a new Category Object
         $program = new Program();
@@ -59,7 +59,7 @@ class ProgramController extends AbstractController
             return $this->redirectToRoute('program_index');
         }
         // Render the form
-        return $this->render('program/add.html.twig', [
+        return $this->render('program/new.html.twig', [
             "form" => $form->createView(),
         ]);
     }

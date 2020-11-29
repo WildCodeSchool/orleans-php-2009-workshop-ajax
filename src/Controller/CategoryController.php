@@ -35,7 +35,7 @@ class CategoryController extends AbstractController
     /**
      * The controller for the category add form
      *
-     * @Route("/add", name="add")
+     * @Route("/new", name="new")
      */
     public function add(Request $request) : Response
     {
@@ -58,7 +58,7 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('category_index');
         }
         // Render the form
-        return $this->render('category/add.html.twig', [
+        return $this->render('category/new.html.twig', [
             "form" => $form->createView(),
         ]);
     }
