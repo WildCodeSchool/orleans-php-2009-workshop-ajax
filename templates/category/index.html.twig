@@ -3,7 +3,8 @@
 {% block title %}All categories{% endblock %}
 
 {% block body %}
-    <h1>Catégories : </h1>
+    <h1>Catégories</h1>
+    <a href="{{ path('category_add') }}" class="btn btn-success">Ajouter une catégorie</a>
     {% for category in categories %}
         <div>
             <h2>{{ category.name }}</h2>
