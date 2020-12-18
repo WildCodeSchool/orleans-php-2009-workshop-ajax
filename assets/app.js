@@ -14,3 +14,26 @@ import $ from 'jquery';
 import 'bootstrap';
 
 console.log('Hello Webpack Encore! Edit me in assets/app.js');
+
+document.getElementById('searchField').addEventListener('input', function(event) {
+    const query = event.target.value;
+
+    if (query !== '') {
+        fetch('/programs/autocomplete?q=' + query)
+        .then(res => res.json())
+        .then(json => {
+            document.getElementById('autocomplete').replaceChildren(
+                ...json.map(
+                    function(result) {
+                        const li = document.createElement('li');
+                        li.innerHTML = `${result.title}`;
+                        return li;
+                    }
+                )
+            );
+        });
+    }
+    else {
+        document.getElementById('autocomplete').replaceChildren();
+    }
+});

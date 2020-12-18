@@ -2,10 +2,8 @@
 // src/Controller/ProgramController.php
 namespace App\Controller;
 
-use App\Entity\Episode;
 use App\Entity\Program;
-use App\Entity\Season;
-use App\Form\ProgramType;
+use App\Repository\ProgramRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,72 +32,38 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * The controller for the program add form
-     *
-     * @Route("/new", name="new")
+     * @Route("/search", name="search", methods={"GET"})
+     * @return Response
      */
-    public function new(Request $request) : Response
+    public function search(Request $request, ProgramRepository $programRepository): Response
     {
-        // Create a new Category Object
-        $program = new Program();
-        // Create the associated Form
-        $form = $this->createForm(ProgramType::class, $program);
-        // Get data from HTTP request
-        $form->handleRequest($request);
-        // Was the form submitted ?
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Deal with the submitted data
-            // Get the Entity Manager
-            $entityManager = $this->getDoctrine()->getManager();
-            // Persist Category Object
-            $entityManager->persist($program);
-            // Flush the persisted object
-            $entityManager->flush();
-            // Finally redirect to categories list
-            return $this->redirectToRoute('program_index');
+        $query = $request->query->get('q');
+
+        if (null !== $query) {
+            $programs = $programRepository->findByQuery($query);
+        } else {
+            $programs = [];
         }
-        // Render the form
-        return $this->render('program/new.html.twig', [
-            "form" => $form->createView(),
+
+        return $this->render('program/index.html.twig', [
+            'programs' => $programs,
         ]);
     }
 
     /**
-     * @Route("/{id}/", name="show", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/autocomplete", name="autocomplete", methods={"GET"})
      * @return Response
      */
-    public function show(Program $program): Response
+    public function autocomplete(Request $request, ProgramRepository $programRepository): Response
     {
-        $seasons = $program->getSeasons();
+        $query = $request->query->get('q');
 
-        return $this->render('program/show.html.twig', [
-            'program' => $program,
-            'seasons' => $seasons,
-        ]);
-    }
+        if (null !== $query) {
+            $programs = $programRepository->findByQuery($query);
+        } else {
+            $programs = [];
+        }
 
-    /**
-     * @Route("/{program}/seasons/{season}", name="season_show", methods={"GET"})
-     * @return Response
-     */
-    public function showSeason(Program $program, Season $season): Response
-    {
-        return $this->render('program/season_show.html.twig', [
-            'program' => $program,
-            'season' => $season,
-        ]);
-    }
-
-    /**
-     * @Route("/{program}/seasons/{season}/episodes/{episode}", name="episode_show", methods={"GET"})
-     * @return Response
-     */
-    public function showEpisode(Program $program, Season $season, Episode $episode): Response
-    {
-        return $this->render('program/episode_show.html.twig', [
-            'program' => $program,
-            'season' => $season,
-            'episode' => $episode,
-        ]);
+        return $this->json($programs, 200);
     }
 }
