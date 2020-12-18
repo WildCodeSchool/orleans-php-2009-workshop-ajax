@@ -26,3 +26,6 @@ $theme-colors: (
     background-color: white;
     list-style-type: none;
 }
+#autocomplete:empty {
+    display: none;
+}
