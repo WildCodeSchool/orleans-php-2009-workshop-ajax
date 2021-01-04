@@ -52,12 +52,10 @@ class ProgramController extends AbstractController
 
         if (null !== $query) {
             $programs = $programRepository->findByQuery($query);
-        } else {
-            $programs = [];
         }
 
         return $this->render('program/index.html.twig', [
-            'programs' => $programs,
+            'programs' => $programs ?? [],
         ]);
     }
 
