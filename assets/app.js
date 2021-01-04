@@ -13,8 +13,5 @@ import $ from 'jquery';
 
 import 'bootstrap';
 
-console.log('Hello Webpack Encore! Edit me in assets/app.js');
+import './autocomplete'
 
-document.getElementById('searchField').addEventListener('input', function(event) {
-
-});

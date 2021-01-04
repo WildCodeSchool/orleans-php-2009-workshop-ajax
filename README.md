@@ -31,6 +31,8 @@ You can test your code through this url: http://127.0.0.1/programs/autocomplete?
 
 # Client side
 
-Edit `assets/app.js`, and add the needed code to fetch the server when the input value changes.
+Edit `assets/autocomplete.js`, and add the needed code to fetch the server when the input value changes.
+
+Modify DOM to add results in a list just below the search bar (use the `<ul id="autocomplete">`).
 
 Remember to clean everything if the input value is empty ;)
